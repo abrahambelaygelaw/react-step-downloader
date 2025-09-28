@@ -3,8 +3,6 @@ import React, { useState, useEffect } from "react";
 import FileSaver from "file-saver";
 import { wrap } from "comlink";
 
-import ThreeContext from "./ThreeContext.jsx";
-import ReplicadMesh from "./ReplicadMesh.jsx";
 
 import cadWorker from "./worker.js?worker";
 const cad = wrap(new cadWorker());
@@ -12,17 +10,14 @@ const cad = wrap(new cadWorker());
 export default function ReplicadApp() {
   const [size, setSize] = useState(5);
 
-  const downloadModel = async () => {
-    const blob = await cad.createBlob(size);
-    FileSaver.saveAs(blob, "thing.step");
+  const downloadSTEP = async () => {
+    const blob = await cad.createSTEPBlob();
+    FileSaver.saveAs(blob, "cycloid.step");
   };
-
-  const [mesh, setMesh] = useState(null);
-
-  useEffect(() => {
-    cad.createMesh(size).then((m) => setMesh(m));
-  }, [size]);
-
+  const downloadSTL = async () => {
+    const blob = await cad.createSTLBlob();
+    FileSaver.saveAs(blob, "cycloid.stl");
+  };
   return (
     <main>
       <h1>
@@ -67,21 +62,10 @@ export default function ReplicadApp() {
             }}
           />
         </div>
-        <button onClick={downloadModel}>Download STEP</button>
+        <button onClick={downloadSTEP}>Download STEP</button>
+        <button onClick={downloadSTL}>Download STL</button>
       </section>
-      <section style={{ height: "300px" }}>
-        {mesh ? (
-          <ThreeContext>
-            <ReplicadMesh edges={mesh.edges} faces={mesh.faces} />
-          </ThreeContext>
-        ) : (
-          <div
-            style={{ display: "flex", alignItems: "center", fontSize: "2em" }}
-          >
-            Loading...
-          </div>
-        )}
-      </section>
+
     </main>
   );
 }
