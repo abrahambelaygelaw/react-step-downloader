@@ -1,0 +1,6 @@
+- dynamic input
+- phase changes
+- dxf generation
+- charts
+- middle hole 
+- layout 
