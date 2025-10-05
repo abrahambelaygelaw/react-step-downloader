@@ -12,6 +12,7 @@
   "dependencies": {
     "@react-three/drei": "9.92.7",
     "@react-three/fiber": "8.13.6",
+    "@tarikjabiri/dxf": "^2.8.9",
     "chart.js": "^4.5.0",
     "comlink": "^4.3.1",
     "file-saver": "^2.0.5",

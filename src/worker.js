@@ -2,7 +2,7 @@ import opencascade from "replicad-opencascadejs/src/replicad_single.js";
 import opencascadeWasm from "replicad-opencascadejs/src/replicad_single.wasm?url";
 import { setOC } from "replicad";
 import { expose } from "comlink";
-import { drawCycloid } from "./cycloid-cad";
+import { drawCycloid3D } from "./cycloid-3d";
 // We import our model as a simple function
 
 // This is the logic to load the web assembly code into replicad
@@ -21,16 +21,16 @@ const init = async () => {
 };
 const started = init();
 
-function createSTEPBlob() {
+function createSTEPBlob(params,disk) {
   // note that you might want to do some caching for more complex models
   return started.then(() => {
-    return drawCycloid().blobSTEP();
+    return drawCycloid3D(params,disk).blobSTEP();
   });
 }
-function createSTLBlob() {
+function createSTLBlob(params,disk) {
   // note that you might want to do some caching for more complex models
   return started.then(() => {
-    return drawCycloid().blobSTL();
+    return drawCycloid3D(params,disk).blobSTL();
   });
 }
 

@@ -9,7 +9,7 @@ function App() {
   const [driveParams, setDriveParams] = useState({
     inputSpeed: 10,
     fixedRingDiameter: 20,
-    numberOfExternalPins: 10,
+    numberOfExternalPins: 12,
     externalPinDiameter: 3,
     numberOfOutputPins: 5,
     outputPinDiameter: 2,
@@ -32,10 +32,8 @@ function App() {
   const driveRef = useRef();
 
   const handleParamChange = (param, value) => {
-    console.log("changing inputs",{param} ,{value})
-    console.log()
+   
     setDriveParams((prev) => {
-      console.log("previous", prev)
       return {
         ...prev,
         [param]: value
@@ -57,7 +55,7 @@ function App() {
         onResultsUpdate={updateResults}
       />
       
-      <ChartsSection driveRef={driveRef} />
+      <ChartsSection driveRef={driveRef} params={driveParams} />
       
       <OtherSettings 
         params={driveParams}

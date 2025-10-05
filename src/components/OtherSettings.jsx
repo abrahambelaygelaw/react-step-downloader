@@ -31,7 +31,16 @@ const OtherSettings = ({ params, onParamChange }) => {
             name="phase_value" 
             value="2" 
             checked={params.phase === 2}
-            onChange={() => onParamChange('phase', 2)}
+            onChange={() =>{
+              if(params.numberOfExternalPins % 2 !== 0){
+                document.getElementById('phase_1').checked = true;
+                onParamChange('phase', 1);
+
+              } else {
+                onParamChange('phase', 2)}}
+
+              }
+                
           />
           <label htmlFor="phase_2">Phase 2</label><br />
           
@@ -41,7 +50,14 @@ const OtherSettings = ({ params, onParamChange }) => {
             name="phase_value" 
             value="3" 
             checked={params.phase === 3}
-            onChange={() => onParamChange('phase', 3)}
+            onChange={() => {
+              if(params.numberOfExternalPins % 3 !== 0){
+                document.getElementById('phase_1').checked = true;
+                onParamChange('phase', 1);
+
+              } else {
+              onParamChange('phase', 3)}}
+            }
           />
           <label htmlFor="phase_3">Phase 3</label><br />
         </div>

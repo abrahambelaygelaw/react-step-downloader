@@ -653,6 +653,7 @@ input.input-box-grey:focus {
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    width: 100%;
   }
   
   .download_button:hover {

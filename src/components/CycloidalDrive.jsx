@@ -33,7 +33,7 @@ const CycloidalDrive = forwardRef(({ params, onParamChange, onResultsUpdate }, r
           params={params} 
           onResultsUpdate={handleResultsUpdate}
         />
-        <OutputPanel results={results} />
+        <OutputPanel results={results} params={params} />
       </div>
       
       <InputPanel params={params} onParamChange={onParamChange} />
