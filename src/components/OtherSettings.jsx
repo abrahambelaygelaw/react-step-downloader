@@ -13,8 +13,9 @@ const OtherSettings = ({ params, onParamChange }) => {
       ></div>
       
       <div className="collapsible-content" style={{ display: isCollapsed ? 'none' : 'block' }}>
-        <div className="collapsible-dropdown">
-          <label>Phase Type (Number of External Pins must be divisible by phase value)</label><br />
+        <div className="collapsible-dropdown" >
+          <label className='collapsible-label' 
+          >Phase Type (Number of External Pins must be divisible by phase value)</label>
           <input
             type="radio"
             id="phase_1"
@@ -22,8 +23,11 @@ const OtherSettings = ({ params, onParamChange }) => {
             value="1"
             checked={params.phase === 1}
             onChange={() => onParamChange('phase', 1)}
+          className='radio-input'
+
           />
-          <label htmlFor="phase_1">Phase 1</label><br />
+          <label htmlFor="phase_1"
+          >Phase 1</label><br />
           
           <input 
             type="radio" 
@@ -40,9 +44,13 @@ const OtherSettings = ({ params, onParamChange }) => {
                 onParamChange('phase', 2)}}
 
               }
+          className='radio-input'
                 
           />
-          <label htmlFor="phase_2">Phase 2</label><br />
+          <label htmlFor="phase_2"
+          
+          
+          >Phase 2</label><br />
           
           <input 
             type="radio" 
@@ -58,23 +66,14 @@ const OtherSettings = ({ params, onParamChange }) => {
               } else {
               onParamChange('phase', 3)}}
             }
+          className='radio-input'
+
           />
-          <label htmlFor="phase_3">Phase 3</label><br />
+          <label htmlFor="phase_3"
+          >Phase 3</label><br />
         </div>
         
-        <div className="input-group disk-clearance">
-          <label htmlFor="outer_ring_disk_clearance" className="color-blue">
-            Disk and Outer Ring:
-          </label>
-          <input
-            type="number"
-            id="outer_ring_disk_clearance"
-            value={params.outerRingDiskClearance}
-            step="0.1"
-            className="input-box"
-            onChange={(e) => onParamChange('outerRingDiskClearance', parseFloat(e.target.value))}
-          />
-        </div>
+       
       </div>
     </div>
   );

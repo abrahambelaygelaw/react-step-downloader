@@ -4,15 +4,9 @@ import InputPanel from './InputPanel';
 import CanvasDisplay from './CanvasDisplay';
 import OutputPanel from './OutputPanel';
 
-const CycloidalDrive = forwardRef(({ params, onParamChange, onResultsUpdate }, ref) => {
+const CycloidalDrive = forwardRef(({ params, onParamChange, onResultsUpdate ,results }, ref) => {
   const canvasRef = useRef();
-  const [results, setResults] = useState({
-    transmissionRatio: 9,
-    outputSpeed: 0.3488,
-    averagePressureAngle: 40,
-    pressureAngleRange: 40
-  });
-
+ 
   useImperativeHandle(ref, () => ({
     getEngine: () => canvasRef.current?.getEngine?.(),
     updateParams: (newParams) => {
@@ -21,7 +15,6 @@ const CycloidalDrive = forwardRef(({ params, onParamChange, onResultsUpdate }, r
   }));
 
   const handleResultsUpdate = (newResults) => {
-    setResults(newResults);
     onResultsUpdate(newResults);
   };
 

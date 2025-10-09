@@ -1,10 +1,9 @@
 // utils/CycloidalDriveEngine.js
 export class CycloidalDriveEngine {
-    constructor(canvas, params, onResultsUpdate) {
+    constructor(canvas, params) {
       this.canvas = canvas;
       this.ctx = canvas.getContext('2d');
       this.params = params;
-      this.onResultsUpdate = onResultsUpdate;
       
       // Animation properties
       this.animationId = null;
@@ -45,19 +44,23 @@ export class CycloidalDriveEngine {
       const size = 500;
       this.canvas.width = size;
       this.canvas.height = size;
-      
-      this.cycloidalDiskCanvas.width = size * 2;
-      this.cycloidalDiskCanvas.height = size * 2;
-      this.cycloidal_disk_phase2_canvas.width = size * 2;
-      this.cycloidal_disk_phase2_canvas.height = size * 2;
-      this.cycloidal_disk_phase3_2_canvas.width = size * 2;
-      this.cycloidal_disk_phase3_2_canvas.height = size * 2;
-      this.cycloidal_disk_phase3_3_canvas.width = size * 2;
-      this.cycloidal_disk_phase3_3_canvas.height = size * 2;
+      const resolution = 4
+      this.cycloidalDiskCanvas.width = size * resolution;
+      this.cycloidalDiskCanvas.height = size * resolution;
+      this.cycloidal_disk_phase2_canvas.width = size * resolution;
+      this.cycloidal_disk_phase2_canvas.height = size * resolution;
+      this.cycloidal_disk_phase3_2_canvas.width = size * resolution;
+      this.cycloidal_disk_phase3_2_canvas.height = size * resolution;
+      this.cycloidal_disk_phase3_3_canvas.width = size * resolution;
+      this.cycloidal_disk_phase3_3_canvas.height = size * resolution;
 
       
-      this.ctx.imageSmoothingEnabled = false;
-      this.cdc.imageSmoothingEnabled = false;
+      this.ctx.imageSmoothingEnabled = true;
+      this.ctx.imageSmoothingQuality = 'high';
+      this.cdc.imageSmoothingEnabled = true;
+      this.cdc_2.imageSmoothingEnabled = true;
+      this.cdc_3_2.imageSmoothingEnabled = true;
+      this.cdc_3_3.imageSmoothingEnabled = true;
     }
   
     init() {
@@ -81,12 +84,7 @@ export class CycloidalDriveEngine {
   
       this.scale = (this.canvas.width * 0.8) / fixedRingDiameter;
   
-      this.onResultsUpdate({
-        transmissionRatio: this.transmissionRatio.toFixed(2),
-        outputSpeed: this.outputSpeed.toFixed(4),
-        averagePressureAngle: "40.00", // Will calculate properly later
-        pressureAngleRange: "5.00"
-      });
+      
     }
   
     calculateNextPoint(R, E, Rr, N, theta, DiClearance) {
@@ -104,7 +102,7 @@ export class CycloidalDriveEngine {
       const E = this.params.eccentricity;
       const Rr = this.params.externalPinDiameter / 2;
       const N = this.params.numberOfExternalPins;
-      const thetaStep = 0.01;
+      const thetaStep = 0.001;
       const DiOrClearance = this.params.outerRingDiskClearance || 0;
   
       let points = [];
@@ -399,7 +397,31 @@ export class CycloidalDriveEngine {
       this.ctx.arc(cx, cy, shaftRadius, 0, Math.PI * 2);
       this.ctx.fillStyle = 'orange';
       this.ctx.fill();
-  
+
+      const dx = ex - cx;
+      const dy = ey - cy;
+      const l = Math.sqrt(dx * dx + dy * dy);
+      const vx = dx / l;
+      const vy = dy / l;
+
+      // Original gear_radius calculation preserved
+      const gear_radius =
+        ((this.params.outputPinDiameter / 2) * this.canvas.width) /
+          this.params.fixedRingDiameter /
+          2 +
+        this.params.eccentricity * (this.params.fixedRingDiameter / this.params.numberOfExternalPins);
+      this.ctx.save();
+      this.ctx.beginPath();
+      this.ctx.strokeStyle = "white";
+      this.ctx.lineWidth = 2;
+      this.ctx.moveTo(cx, cy);
+      this.ctx.lineTo(
+        ex + gear_radius * vx,
+        ey + gear_radius * vy
+      );
+      this.ctx.stroke();
+      // this.ctx.restore();
+      
       // Draw fixed pins (outer ring)
       if (this.cycloidal_disk_pins) {
         this.cycloidal_disk_pins.forEach(pin => {

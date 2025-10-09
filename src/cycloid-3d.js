@@ -8,11 +8,11 @@ export function drawCycloid3D(params,disk){
     const output_disk_diameter = params.outputDiskDiameter
     const output_pin_count = params.numberOfOutputPins
     const output_pin_diameter = params.outputPinDiameter
-    const thetaStep = 0.01;
+    const thetaStep = 0.001;
     const DiOrClearance = 0;
     const holes = []
     const phase = params.phase
-
+    const thickness = params.thickness
     
     function calculate_next_point(R, eccentricity, Rr, N, theta, DiClearance) {
         const psi = -Math.atan2(
@@ -81,9 +81,9 @@ export function drawCycloid3D(params,disk){
         holes.push({ x, y, r });
       }
       
-      let cycloid =  drawPointsInterpolation(points).sketchOnPlane("XY").extrude(5);
+      let cycloid =  drawPointsInterpolation(points).sketchOnPlane("XY").extrude(thickness);
       holes.forEach(hole => {
-        cycloid = cycloid.cut(drawCircle(hole.r).sketchOnPlane("XY").extrude(5).translate([hole.x,hole.y,0]))
+        cycloid = cycloid.cut(drawCircle(hole.r).sketchOnPlane("XY").extrude(thickness).translate([hole.x,hole.y,0]))
       })
       
     return cycloid;

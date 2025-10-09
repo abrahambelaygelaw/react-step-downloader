@@ -59,8 +59,6 @@ export function drawCycloid2D(params, disk){
     );
     points.push([x,y,0]);
     const controlPoints = points.map((p) => point3d(p[0], p[1], p[2]));
-
-    
     holes.push({
         x: 0,
         y: 0,
